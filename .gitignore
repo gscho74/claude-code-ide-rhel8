@@ -1,0 +1,30 @@
+# Built native modules and Emacs/Python bytecode
+*.so
+*.dll
+*.dylib
+*.elc
+*.eln
+*.pyc
+__pycache__/
+
+# Zig downloads and compilation outputs (included in release bundles only)
+/vendor/zig-cache/
+.zig-cache/
+zig-out/
+/vendor/ghostel/ghostel-module.version
+
+# Generated release metadata, checksums and execution logs
+/BUILD-METADATA.json
+/SHA256SUMS
+/tests/*.log
+/tests/test-output.txt
+*.tar.gz
+*.tar.xz
+
+# Local editor files and credentials
+*~
+\#*\#
+.\#*
+.env
+.env.*
+.claude/

@@ -1,0 +1,25 @@
+;;; claude-ide-init.el --- Relocatable Claude IDE setup -*- lexical-binding: t; -*-
+(when (version< emacs-version "28.1")
+  (error "Claude IDE needs Emacs 28.1+ (30.2 recommended), not %s" emacs-version))
+(unless module-file-suffix (error "Emacs must be built with --with-modules"))
+(defconst claude-ide-install-directory
+  (file-name-directory (or load-file-name buffer-file-name)))
+(add-to-list 'load-path (expand-file-name "lisp" claude-ide-install-directory))
+(add-to-list 'load-path (expand-file-name "vendor/ghostel" claude-ide-install-directory))
+(add-to-list 'load-path (expand-file-name "vendor/compat" claude-ide-install-directory))
+(setq ghostel-module-directory
+      (expand-file-name "vendor/ghostel" claude-ide-install-directory)
+      ghostel-module-auto-install nil)
+(require 'claude-ide)
+(setq claude-ide-terminal-backend 'ghostel)
+(claude-ide-context-mode 1)
+(require 'claude-ide-korean)
+;; Separate prefix leaves existing Codex bindings available.
+(define-prefix-command 'claude-ide-prefix-map)
+(global-set-key (kbd "C-c a") 'claude-ide-prefix-map)
+(define-key claude-ide-prefix-map (kbd "a") #'claude-ide-menu)
+(define-key claude-ide-prefix-map (kbd "n") #'claude-ide)
+(define-key claude-ide-prefix-map (kbd "p") #'claude-ide-send-prompt)
+(define-key claude-ide-prefix-map (kbd "r") #'claude-ide-send-region)
+(define-key claude-ide-prefix-map (kbd "s") #'claude-ide-resume)
+(define-key claude-ide-prefix-map (kbd "c") #'claude-ide-clear-selection)
